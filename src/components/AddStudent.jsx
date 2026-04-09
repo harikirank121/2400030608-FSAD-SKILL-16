@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL;
+
 function AddStudent({ refresh, selected, setSelected }) {
+
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [course, setCourse] = useState("");
@@ -18,17 +21,13 @@ function AddStudent({ refresh, selected, setSelected }) {
         e.preventDefault();
 
         if (selected) {
-            await axios.put(`http://localhost:8080/students/${selected.id}`, {
-                name,
-                email,
-                course,
+            await axios.put(`${API}/students/${selected.id}`, {
+                name, email, course
             });
             setSelected(null);
         } else {
-            await axios.post("http://localhost:8080/students", {
-                name,
-                email,
-                course,
+            await axios.post(`${API}/students`, {
+                name, email, course
             });
         }
 
@@ -43,27 +42,9 @@ function AddStudent({ refresh, selected, setSelected }) {
             <h2>Add / Update Student</h2>
 
             <form onSubmit={handleSubmit}>
-                <input
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <br />
-
-                <input
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <br />
-
-                <input
-                    placeholder="Course"
-                    value={course}
-                    onChange={(e) => setCourse(e.target.value)}
-                />
-                <br />
-
+                <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" />
+                <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+                <input value={course} onChange={e => setCourse(e.target.value)} placeholder="Course" />
                 <button type="submit">Submit</button>
             </form>
         </div>

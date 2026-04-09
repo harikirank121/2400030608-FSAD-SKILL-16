@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL;
+
 function StudentList({ setSelected, refreshFlag }) {
     const [students, setStudents] = useState([]);
 
     const fetchData = () => {
-        axios
-            .get("http://localhost:8080/students")
-            .then((res) => setStudents(res.data));
+        axios.get(`${API}/students`)
+            .then(res => setStudents(res.data));
     };
 
     useEffect(() => {
@@ -15,18 +16,16 @@ function StudentList({ setSelected, refreshFlag }) {
     }, [refreshFlag]);
 
     const deleteStudent = async (id) => {
-        await axios.delete(`http://localhost:8080/students/${id}`);
+        await axios.delete(`${API}/students/${id}`);
         fetchData();
     };
 
     return (
         <div>
             <h2>Student List</h2>
-
-            {students.map((s) => (
+            {students.map(s => (
                 <div key={s.id}>
                     {s.name} | {s.email} | {s.course}
-
                     <button onClick={() => deleteStudent(s.id)}>Delete</button>
                     <button onClick={() => setSelected(s)}>Update</button>
                 </div>
