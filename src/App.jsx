@@ -1,28 +1,25 @@
-import { useState } from "react";
-import AddStudent from "./components/AddStudent";
-import StudentList from "./components/StudentList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [selected, setSelected] = useState(null);
-  const [refreshFlag, setRefreshFlag] = useState(false);
-
-  const refresh = () => {
-    setRefreshFlag(!refreshFlag);
-  };
-
   return (
-    <div>
-      <AddStudent
-        refresh={refresh}
-        selected={selected}
-        setSelected={setSelected}
-      />
+    <Router>
 
-      <StudentList
-        setSelected={setSelected}
-        refreshFlag={refreshFlag}
-      />
-    </div>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+
+    </Router>
   );
 }
 
