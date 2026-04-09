@@ -12,20 +12,15 @@ public class UserService {
     @Autowired
     private UserRepository repo;
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     // REGISTER
     public User register(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
 
-    // LOGIN
-    public User login(String username, String password) {
-        User user = repo.findByUsername(username);
-
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
-    }
 
     // GET USER PROFILE
     public User getUser(String username) {
